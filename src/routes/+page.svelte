@@ -37,6 +37,13 @@
 			</li>
 		{/each}
 	</ul>
+
+	<!-- badge example using https://forthebadge.com/ -->
+	<!-- 
+	<img
+		src="https://forthebadge.com/images/badges/built-with-love.svg"
+		alt=""
+	/> -->
 </div>
 
 <style>
@@ -46,7 +53,7 @@
 		padding: 1rem;
 		max-width: 42rem;
 
-		font-family: ui-sans-serif, system-ui, sans-serif;
+		font-family: ui-sans-serif, system-ui, sans-serif; /* comment this line if you want serif font */
 	}
 
 	a {
