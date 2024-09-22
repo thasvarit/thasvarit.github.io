@@ -1,6 +1,8 @@
 <script lang="ts">
 	import resources from "$lib/list.json";
 	import ExternalLinkIcon from "$lib/components/ExternalLinkIcon.svelte";
+
+	export let data;
 </script>
 
 <div id="container">
@@ -12,6 +14,9 @@
 			like!
 		</p>
 		<h2>Useful Stuff (at least for myself)</h2>
+		<p id="updated-at">
+			Last Updated: {data.built_at.toLocaleDateString()}
+		</p>
 	</header>
 
 	<ul id="list">
@@ -47,6 +52,16 @@
 </div>
 
 <style>
+	#updated-at {
+		margin-bottom: 1rem;
+		color: #717171;
+		font-size: small;
+		font-style: italic;
+
+		margin: 0;
+		margin-top: 0.5rem;
+		margin-bottom: 1.5rem;
+	}
 	#container {
 		/* @apply container px-4 py-10 max-w-2xl; */
 		margin: 0 auto;
@@ -67,15 +82,13 @@
 
 	h1 {
 		line-height: 2.5rem;
+		margin: 1.5rem 0;
 	}
 
 	h2 {
 		line-height: 2rem;
-	}
-
-	h1,
-	h2 {
-		margin: 1.5rem 0;
+		margin: 0;
+		margin-top: 1.5rem;
 	}
 
 	h3,
