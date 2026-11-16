@@ -1,0 +1,180 @@
+/* ===== Theme ===== */
+/* Dark theme only. Accent = #b2a1ff (lavender). */
+:root {
+  --bg: #202023;
+  --fg: #ededee;
+  --muted: #a0a0aa;
+  --accent: #b2a1ff;
+  --accent-soft: #b2a1ff;
+  --heading-line: #b2a1ff;
+  --card: rgba(255, 255, 255, 0.08);
+  --nav-bg: rgba(32, 32, 35, 0.5);
+  --tag-bg: rgba(178, 161, 255, 0.16);
+  --tag-fg: #b2a1ff;
+  --btn-bg: #b2a1ff;
+  --btn-fg: #1a1a1d;
+  --toggle-bg: #b2a1ff;
+  --art-blank: #2d2b38;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Zen Maru Gothic", "IBM Plex Sans Thai Looped", system-ui, sans-serif;
+  line-height: 1.65;
+  transition: background 0.25s, color 0.25s;
+}
+a {
+  color: var(--accent); text-decoration: underline transparent;
+  text-underline-offset: 3px; transition: text-decoration-color .15s ease-out;
+}
+a:hover { text-decoration-color: currentColor; }
+img { max-width: 100%; display: block; }
+
+.container { max-width: 576px; margin: 0 auto; padding: 0 16px; }
+
+/* ===== Navbar ===== */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+  background: var(--nav-bg);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+.nav .inner {
+  max-width: 768px; margin: 0 auto; padding: 8px 16px;
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+}
+.logo {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-weight: 700; font-size: 18px; color: var(--fg); letter-spacing: -0.02em;
+}
+.logo:hover { text-decoration: none; }
+.nav-right { display: flex; gap: 8px; align-items: center; }
+
+/* ===== Content ===== */
+main { padding-top: 64px; }
+.hero { display: flex; align-items: center; gap: 16px; margin: 48px 0 8px; }
+.hero h2 { margin: 0; font-size: 32px; line-height: 1.2; letter-spacing: -0.02em; display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 10px; }
+.hero p { margin: 4px 0 0; }
+.hero .name-th { font-size: 16px; font-weight: 400; color: var(--muted); letter-spacing: 0; white-space: nowrap; }
+.hero .text { flex: 1; }
+@media (max-width: 640px) {
+  .hero .avatar { width: 108px; height: 108px; }
+  .hero .text > p { font-size: 15px; }
+}
+.avatar {
+  width: 150px; height: 150px; border-radius: 50%; flex-shrink: 0;
+  overflow: hidden; display: grid; place-items: center;
+  box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--accent-soft);
+  background: linear-gradient(135deg, #b2a1ff, #6c55e8); color: #fff; font-weight: 700; font-size: 32px;
+}
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Greeting bubble: appears above the photo when hovering / focusing / tapping it */
+.avatar-wrap {
+  position: relative; flex-shrink: 0; padding: 0; border: 0; background: none;
+  border-radius: 50%; cursor: pointer; font: inherit; color: inherit;
+}
+.avatar-wrap .avatar { transition: transform .25s cubic-bezier(.2,.8,.2,1); }
+.avatar-wrap:hover .avatar, .avatar-wrap:focus-visible .avatar, .avatar-wrap.open .avatar { transform: rotate(-6deg) scale(1.04); }
+.avatar-wrap:focus-visible { outline: 2px solid var(--accent-soft); outline-offset: 6px; }
+.bubble {
+  position: absolute; right: -6px; bottom: calc(100% + 14px); width: max-content; max-width: 230px;
+  padding: 10px 14px; border-radius: 14px;
+  background: #fff; color: #202023; font-size: 14px; font-weight: 700; line-height: 1.5; text-align: left;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0; transform: translateY(6px) scale(.96); transform-origin: bottom right;
+  pointer-events: none; transition: opacity .2s, transform .2s cubic-bezier(.2,.8,.2,1);
+}
+/* little tail pointing down, at the middle of the photo */
+.bubble::after {
+  content: ""; position: absolute; right: 73px; top: 100%;
+  border: 8px solid transparent; border-top-color: #fff; border-bottom: 0;
+}
+.avatar-wrap:hover .bubble, .avatar-wrap:focus-visible .bubble, .avatar-wrap.open .bubble {
+  opacity: 1; transform: none;
+}
+/* Not enough room above (page scrolled)? hello.js adds .below and the bubble opens under the photo */
+.avatar-wrap.below .bubble { bottom: auto; top: calc(100% + 14px); transform: translateY(-6px) scale(.96); transform-origin: top right; }
+.avatar-wrap.below:hover .bubble, .avatar-wrap.below:focus-visible .bubble, .avatar-wrap.below.open .bubble { transform: none; }
+.avatar-wrap.below .bubble::after { top: auto; bottom: 100%; border-top: 0; border-bottom: 8px solid #fff; }
+/* While the bubble is showing, bring the name/photo row in front of the fixed top bar */
+.hero { position: relative; }
+.hero:has(.avatar-wrap:hover), .hero:has(.avatar-wrap:focus-visible), .hero:has(.avatar-wrap.open) { z-index: 20; }
+@media (max-width: 640px) {
+  .bubble { max-width: 220px; font-size: 13px; }
+  .bubble::after { right: 52px; }
+}
+
+section { margin: 32px 0; }
+h3.section {
+  display: inline-block; margin: 0 0 12px; font-size: 20px;
+  text-decoration: underline; text-underline-offset: 6px;
+  text-decoration-color: var(--heading-line); text-decoration-thickness: 4px;
+}
+.paragraph { text-align: left; margin: 0 0 12px; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--btn-bg); color: var(--btn-fg); border-radius: 6px;
+  padding: 8px 16px; font-weight: 700; font-size: 15px;
+}
+.btn:hover { text-decoration: none; filter: brightness(1.08); }
+.center { text-align: center; margin: 16px 0; }
+
+
+.xp { margin: 0 0 18px; }
+.xp h4 { margin: 0 0 2px; font-size: 16px; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.xp .field { font-weight: 700; }
+.xp .when { font-weight: 400; font-size: 13px; color: var(--muted); }
+.xp p { margin: 0; }
+
+.bio { margin: 0; padding: 0; list-style: none; }
+.bio li { padding-left: 3.4em; text-indent: -3.4em; }
+.bio .year { font-weight: 700; margin-right: 1em; }
+
+.social { list-style: none; padding: 0; margin: 0; }
+.social a {
+  display: inline-flex; gap: 8px; align-items: center; padding: 6px 10px; border-radius: 6px;
+}
+.social a:hover { background: var(--card); text-decoration: none; }
+.social svg { width: 18px; height: 18px; fill: currentColor; }
+
+/* ===== Grid / Works ===== */
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+@media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
+.grid-item { text-align: center; color: var(--fg); }
+.grid-item:hover { text-decoration: none; }
+.thumb {
+  border-radius: 12px; aspect-ratio: 16 / 9; overflow: hidden; margin-bottom: 8px;
+  display: grid; place-items: center; font-size: 40px;
+  background: var(--card);
+  transition: transform .2s;
+}
+.thumb img { width: 100%; height: 100%; object-fit: cover; }
+.grid-item:hover .thumb { transform: translateY(-3px); }
+.grid-item .title { font-weight: 700; font-size: 18px; margin: 0; }
+.grid-item .desc { font-size: 14px; margin: 2px 0 0; color: var(--muted); }
+
+.tag {
+  display: inline-block; background: var(--tag-bg); color: var(--tag-fg);
+  font-size: 12px; font-weight: 700; padding: 0 6px; border-radius: 4px; margin-right: 6px;
+  text-transform: uppercase;
+}
+
+footer { text-align: center; opacity: .45; font-size: 14px; padding: 32px 0 40px; }
+
+/* ===== Page-load animation (like framer-motion fade/slide) ===== */
+.fade { opacity: 0; transform: translateY(10px); animation: fadeUp .6s ease forwards; }
+.fade.d1 { animation-delay: .1s; }
+.fade.d2 { animation-delay: .2s; }
+.fade.d3 { animation-delay: .3s; }
+.fade.d4 { animation-delay: .4s; }
+.fade.d5 { animation-delay: .5s; }
+@keyframes fadeUp { to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .fade { animation: none; opacity: 1; transform: none; }
+}
