@@ -28,14 +28,13 @@ body {
   line-height: 1.65;
   transition: background 0.25s, color 0.25s;
 }
-a {
-  color: var(--accent); text-decoration: underline transparent;
+a { color: var(--accent); text-decoration: none; }
+/* Only links inside text get the underline on hover (buttons, logo and social links never do) */
+p a {
+  text-decoration: underline transparent;
   text-underline-offset: 3px; transition: text-decoration-color .15s ease-out;
 }
-a:hover { text-decoration-color: currentColor; }
-/* buttons, the logo and social links never get the underline (also avoids a flash when the mouse leaves) */
-.btn, .logo, .social a, .grid-item { text-decoration: none; transition: none; }
-.btn:hover, .logo:hover, .social a:hover, .grid-item:hover { text-decoration: none; }
+p a:hover { text-decoration-color: currentColor; }
 img { max-width: 100%; display: block; }
 
 .container { max-width: 576px; margin: 0 auto; padding: 0 16px; }
