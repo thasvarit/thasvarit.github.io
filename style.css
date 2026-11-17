@@ -33,6 +33,9 @@ a {
   text-underline-offset: 3px; transition: text-decoration-color .15s ease-out;
 }
 a:hover { text-decoration-color: currentColor; }
+/* buttons, the logo and social links never get the underline (also avoids a flash when the mouse leaves) */
+.btn, .logo, .social a, .grid-item { text-decoration: none; transition: none; }
+.btn:hover, .logo:hover, .social a:hover, .grid-item:hover { text-decoration: none; }
 img { max-width: 100%; display: block; }
 
 .container { max-width: 576px; margin: 0 auto; padding: 0 16px; }
